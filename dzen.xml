@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Сантерра — студии и коммерция в Балашихе</title>
+    <link>https://apartamenty.poprostomy.ru/</link>
+    <description>Готовые студии и коммерческие помещения в Балашихе, мкр. Железнодорожный. Наличие, цены и специальные условия проекта «Сантерра».</description>
+    <language>ru</language>
+    <copyright>© 2026 ООО «Специализированный застройщик «Сантерра»</copyright>
+    <lastBuildDate>Thu, 12 Nov 2026 12:00:00 +0300</lastBuildDate>
+    <atom:link href="https://apartamenty.poprostomy.ru/dzen.xml" rel="self" type="application/rss+xml"/>
+    <image>
+      <url>https://apartamenty.poprostomy.ru/images/logo.jpg</url>
+      <title>Сантерра — студии и коммерция в Балашихе</title>
+      <link>https://apartamenty.poprostomy.ru/</link>
+    </image>
+    <ttl>60</ttl>
+  </channel>
+</rss>

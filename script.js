@@ -1,12 +1,8 @@
-/* ============================================================
-   Сантерра — интерактив, формы и анимации
-   ============================================================ */
-
 (function () {
   'use strict';
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var desktopQuery = window.matchMedia('(min-width: 1060px)');
+  var desktopQuery = window.matchMedia('(min-width: 1180px)');
 
   function $(selector, context) {
     return (context || document).querySelector(selector);
@@ -16,18 +12,14 @@
     return Array.prototype.slice.call((context || document).querySelectorAll(selector));
   }
 
-  /* ---------------- Прелоадер ---------------- */
-
   function hideLoader() {
     document.body.classList.remove('is-loading');
   }
 
   window.addEventListener('load', function () {
-    window.setTimeout(hideLoader, reduceMotion ? 0 : 400);
+    window.setTimeout(hideLoader, reduceMotion ? 0 : 350);
   });
-  window.setTimeout(hideLoader, 2600);
-
-  /* ---------------- Шапка, полоса прокрутки, кнопка «наверх» ---------------- */
+  window.setTimeout(hideLoader, 2400);
 
   var header = $('.site-header');
   var scrollBar = $('#scroll-bar');
@@ -35,15 +27,33 @@
   var mobileBar = $('.mobile-bar');
   var ticking = false;
 
-  var navLinks = $$('.main-nav a[href^="#"]');
-  var navSections = navLinks.map(function (link) {
+  var navLinks = $$('.main-nav a');
+  var hashLinks = navLinks.filter(function (link) {
+    return (link.getAttribute('href') || '').charAt(0) === '#';
+  });
+  var navSections = hashLinks.map(function (link) {
     return document.getElementById(link.getAttribute('href').slice(1));
   }).filter(Boolean);
 
-  function updateActiveNav(y) {
-    if (!navLinks.length || !navSections.length) return;
+  function markCurrentPage() {
+    var path = window.location.pathname.replace(/\\/g, '/');
+    var file = path.substring(path.lastIndexOf('/') + 1) || 'index.html';
 
-    var offset = (header ? header.offsetHeight : 0) + 72;
+    navLinks.forEach(function (link) {
+      var href = link.getAttribute('href') || '';
+      if (!href || href.charAt(0) === '#' || /^https?:/.test(href)) return;
+      var clean = href.split('#')[0];
+      if (clean === file || (file === '' && clean === 'index.html')) {
+        link.classList.add('is-active');
+        link.setAttribute('aria-current', 'page');
+      }
+    });
+  }
+
+  function updateActiveNav(y) {
+    if (!hashLinks.length || !navSections.length) return;
+
+    var offset = (header ? header.offsetHeight : 0) + 90;
     var currentId = navSections[0].id;
 
     navSections.forEach(function (section) {
@@ -54,7 +64,7 @@
       currentId = navSections[navSections.length - 1].id;
     }
 
-    navLinks.forEach(function (link) {
+    hashLinks.forEach(function (link) {
       link.classList.toggle('is-active', link.getAttribute('href') === '#' + currentId);
     });
   }
@@ -69,6 +79,7 @@
     if (mobileBar) mobileBar.classList.toggle('is-visible', y > 520);
 
     updateActiveNav(y);
+    updateReadingProgress();
 
     ticking = false;
   }
@@ -79,6 +90,8 @@
       ticking = true;
     }
   }, { passive: true });
+
+  markCurrentPage();
   onScroll();
 
   if (toTop) {
@@ -86,8 +99,6 @@
       window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
     });
   }
-
-  /* ---------------- Мобильное меню ---------------- */
 
   var menuToggle = $('#menu-toggle');
   var mobileMenu = $('#mobile-menu');
@@ -99,7 +110,7 @@
     mobileMenu.setAttribute('aria-hidden', String(!open));
     menuToggle.setAttribute('aria-expanded', String(open));
     menuToggle.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
-    document.body.classList.toggle('menu-open', open);
+    document.body.classList.toggle('is-locked', open);
   }
 
   if (menuToggle && mobileMenu) {
@@ -133,8 +144,6 @@
     window.addEventListener('resize', closeMenuOnDesktop, { passive: true });
   }
 
-  /* ---------------- Появление блоков при скролле ---------------- */
-
   var revealEls = $$('.reveal');
 
   if (!('IntersectionObserver' in window) || reduceMotion) {
@@ -151,8 +160,6 @@
 
     revealEls.forEach(function (el) { revealObserver.observe(el); });
   }
-
-  /* ---------------- Счётчики ---------------- */
 
   function formatCount(value, decimals, prefix, suffix) {
     var fixed = value.toFixed(decimals);
@@ -206,7 +213,182 @@
     countEls.forEach(animateCount);
   }
 
-  /* ---------------- Модальное окно заявки ---------------- */
+  var countdown = $('[data-countdown]');
+
+  if (countdown) {
+    var cdFields = {
+      days: $('[data-cd-days]', countdown),
+      hours: $('[data-cd-hours]', countdown),
+      minutes: $('[data-cd-minutes]', countdown),
+      seconds: $('[data-cd-seconds]', countdown)
+    };
+    var cdTitle = $('[data-cd-title]', countdown);
+    var months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+    var moscowOffset = 3 * 60 * 60 * 1000;
+
+    function plural(value, one, few, many) {
+      var lastTwo = value % 100;
+      if (lastTwo >= 11 && lastTwo <= 14) return many;
+      var last = value % 10;
+      if (last === 1) return one;
+      if (last >= 2 && last <= 4) return few;
+      return many;
+    }
+
+    function tickCountdown() {
+      var now = Date.now();
+      var moscow = new Date(now + moscowOffset);
+      var month = moscow.getUTCMonth();
+      var end = Date.UTC(moscow.getUTCFullYear(), month + 1, 1) - moscowOffset;
+      var left = Math.max(0, Math.floor((end - now) / 1000));
+
+      var values = {
+        days: Math.floor(left / 86400),
+        hours: Math.floor((left % 86400) / 3600),
+        minutes: Math.floor((left % 3600) / 60),
+        seconds: left % 60
+      };
+
+      if (cdTitle) cdTitle.textContent = 'До конца ' + months[month];
+
+      Object.keys(values).forEach(function (key) {
+        if (cdFields[key]) cdFields[key].textContent = String(values[key]).padStart(2, '0');
+      });
+
+      var labels = countdown.querySelectorAll('[data-cd-label]');
+      if (labels.length === 4) {
+        labels[0].textContent = plural(values.days, 'день', 'дня', 'дней');
+        labels[1].textContent = plural(values.hours, 'час', 'часа', 'часов');
+        labels[2].textContent = plural(values.minutes, 'минута', 'минуты', 'минут');
+        labels[3].textContent = plural(values.seconds, 'секунда', 'секунды', 'секунд');
+      }
+    }
+
+    tickCountdown();
+    window.setInterval(tickCountdown, 1000);
+  }
+
+  function initParticles() {
+    var canvas = $('.hero__canvas');
+    if (!canvas || reduceMotion) return;
+
+    var ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    var colors = ['139,92,246', '34,211,238', '236,72,153', '110,231,183'];
+    var particles = [];
+    var width = 0;
+    var height = 0;
+    var animationId = 0;
+
+    function sizeCanvas() {
+      var rect = canvas.getBoundingClientRect();
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = rect.width;
+      height = rect.height;
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      var count = Math.min(56, Math.max(20, Math.floor((width * height) / 30000)));
+      particles = Array.from({ length: count }, function () {
+        return {
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.2,
+          vy: (Math.random() - 0.5) * 0.2,
+          r: Math.random() * 1.7 + 0.6,
+          c: colors[Math.floor(Math.random() * colors.length)],
+          a: Math.random() * 0.5 + 0.2
+        };
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+
+      particles.forEach(function (p) {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < -20) p.x = width + 20;
+        if (p.x > width + 20) p.x = -20;
+        if (p.y < -20) p.y = height + 20;
+        if (p.y > height + 20) p.y = -20;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + p.c + ',' + p.a + ')';
+        ctx.fill();
+      });
+
+      for (var i = 0; i < particles.length; i++) {
+        for (var j = i + 1; j < particles.length; j++) {
+          var a = particles[i];
+          var b = particles[j];
+          var dist = Math.hypot(a.x - b.x, a.y - b.y);
+          if (dist < 130) {
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.strokeStyle = 'rgba(139,92,246,' + ((1 - dist / 130) * 0.16) + ')';
+            ctx.lineWidth = 0.7;
+            ctx.stroke();
+          }
+        }
+      }
+
+      animationId = window.requestAnimationFrame(draw);
+    }
+
+    sizeCanvas();
+    draw();
+
+    var resizeTimer;
+    window.addEventListener('resize', function () {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(sizeCanvas, 150);
+    });
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) {
+        window.cancelAnimationFrame(animationId);
+      } else {
+        animationId = window.requestAnimationFrame(draw);
+      }
+    });
+  }
+
+  initParticles();
+
+  var hero = $('.hero');
+  var heroVisual = $('.hero__visual');
+
+  if (hero && heroVisual && !reduceMotion && window.matchMedia('(pointer: fine)').matches) {
+    var raf = 0;
+    hero.addEventListener('pointermove', function (e) {
+      var rect = hero.getBoundingClientRect();
+      var x = (e.clientX - rect.left) / rect.width - 0.5;
+      var y = (e.clientY - rect.top) / rect.height - 0.5;
+      window.cancelAnimationFrame(raf);
+      raf = window.requestAnimationFrame(function () {
+        heroVisual.style.transform = 'translate3d(' + (x * 14) + 'px,' + (y * 12) + 'px,0)';
+      });
+    });
+
+    hero.addEventListener('pointerleave', function () {
+      window.cancelAnimationFrame(raf);
+      heroVisual.style.transform = '';
+    });
+  }
+
+  $$('.offer, .buy-card, .article-card, .infra-card, .stat-card, .aside-card').forEach(function (card) {
+    card.classList.add('spotlight');
+    card.addEventListener('pointermove', function (e) {
+      var rect = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
+      card.style.setProperty('--my', (e.clientY - rect.top) + 'px');
+    });
+  });
 
   var modal = $('#callback-modal');
   var modalForm = $('#callback-form');
@@ -292,8 +474,6 @@
       if (e.key === 'Tab') trapFocus(modal, e);
     });
   }
-
-  /* ---------------- Проверка и отправка форм ---------------- */
 
   function setError(field, message) {
     var errorEl = field ? document.getElementById(field.id + '-error') : null;
@@ -509,8 +689,6 @@
     });
   });
 
-  /* ---------------- Видео: загрузка по клику ---------------- */
-
   $$('[data-video-play]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var frame = btn.closest('[data-video-src]');
@@ -539,8 +717,6 @@
     });
   });
 
-  /* ---------------- Карта: iframe загружается по клику ---------------- */
-
   $$('[data-map-load]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var frame = btn.closest('[data-map-query]');
@@ -559,8 +735,6 @@
       frame.appendChild(iframe);
     });
   });
-
-  /* ---------------- Галерея: лайтбокс ---------------- */
 
   var lightbox = $('#lightbox');
   var lightboxImg = $('#lightbox-img');
@@ -615,7 +789,10 @@
   }
 
   galleryItems.forEach(function (item, index) {
-    item.addEventListener('click', function () { openLightbox(index); });
+    item.addEventListener('click', function (e) {
+      e.preventDefault();
+      openLightbox(index);
+    });
   });
 
   if (lightbox) {
@@ -645,8 +822,6 @@
     });
   }
 
-  /* ---------------- FAQ: аккордеон ---------------- */
-
   $$('.faq-item').forEach(function (item) {
     item.addEventListener('toggle', function () {
       if (!item.open) return;
@@ -657,7 +832,83 @@
     });
   });
 
-  /* ---------------- RSS: копирование ссылки ---------------- */
+  function updateReadingProgress() {
+    var bar = $('[data-reading-progress]');
+    var body = $('[data-article-body]');
+    if (!bar || !body) return;
+
+    var rect = body.getBoundingClientRect();
+    var total = rect.height - window.innerHeight;
+    var passed = Math.min(Math.max(-rect.top + 140, 0), Math.max(total, 1));
+    bar.style.width = Math.min((passed / Math.max(total, 1)) * 100, 100) + '%';
+  }
+
+  updateReadingProgress();
+
+  function toast(message) {
+    var el = $('.copy-note');
+    if (!el) return;
+    el.textContent = message;
+    el.classList.remove('is-error');
+    window.clearTimeout(toast.timer);
+    toast.timer = window.setTimeout(function () {
+      el.textContent = '';
+    }, 3000);
+  }
+
+  $$('[data-share]').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      var type = btn.getAttribute('data-share');
+      var url = encodeURIComponent(window.location.href);
+      var title = encodeURIComponent(document.title);
+      var links = {
+        vk: 'https://vk.com/share.php?url=' + url + '&title=' + title,
+        tg: 'https://t.me/share/url?url=' + url + '&text=' + title
+      };
+
+      if (type === 'copy') {
+        var value = window.location.href;
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(value).then(function () {
+            toast('Ссылка скопирована');
+          }).catch(function () {
+            toast(value);
+          });
+        } else {
+          toast(value);
+        }
+        return;
+      }
+
+      if (links[type]) window.open(links[type], '_blank', 'noopener,noreferrer,width=640,height=540');
+    });
+  });
+
+  var filterGrid = $('[data-filter-grid]');
+
+  if (filterGrid) {
+    var cards = $$('[data-cat]', filterGrid);
+    var chips = $$('[data-filter]');
+    var empty = $('[data-empty]');
+
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var value = chip.getAttribute('data-filter');
+        chips.forEach(function (c) { c.classList.remove('is-active'); });
+        chip.classList.add('is-active');
+
+        var visible = 0;
+        cards.forEach(function (card) {
+          var show = value === 'all' || card.getAttribute('data-cat') === value;
+          card.hidden = !show;
+          if (show) visible++;
+        });
+
+        if (empty) empty.hidden = visible > 0;
+      });
+    });
+  }
 
   var copyBtn = $('[data-copy-rss]');
   var copyNote = $('[data-copy-note]');
@@ -721,13 +972,14 @@
     });
   }
 
-  /* ---------------- Год в подвале ---------------- */
-
   $$('[data-year]').forEach(function (el) {
     el.textContent = String(new Date().getFullYear());
   });
 
-  /* ---------------- Готово ---------------- */
+  if (!reduceMotion) {
+    var main = $('main');
+    if (main) main.classList.add('page-enter');
+  }
 
   window.__santerraReady = true;
 })();

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"
      xmlns:content="http://purl.org/rss/1.0/modules/content/"
      xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -9,7 +9,7 @@
     <description>Готовые студии и коммерческие помещения в Балашихе, мкр. Железнодорожный. Наличие, цены, специальные условия и новости проекта «Сантерра».</description>
     <language>ru</language>
     <copyright>© 2026 ООО «Специализированный застройщик «Сантерра»</copyright>
-    <lastBuildDate>Tue, 10 Nov 2026 12:00:00 +0300</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2026 12:00:00 +0300</lastBuildDate>
     <atom:link href="https://apartamenty.poprostomy.ru/rss.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://apartamenty.poprostomy.ru/images/logo.jpg</url>
@@ -20,74 +20,74 @@
 
     <item>
       <title>Специальные условия: скидка 5% и рассрочка до 6 месяцев</title>
-      <link>https://apartamenty.poprostomy.ru/#invest</link>
+      <link>https://apartamenty.poprostomy.ru/invest.html</link>
       <guid isPermaLink="false">santerra-offer-2026-11</guid>
       <pubDate>Tue, 10 Nov 2026 10:00:00 +0300</pubDate>
       <category>Специальные условия</category>
       <description><![CDATA[Скидка 5% на помещения площадью более 24 м², рассрочка платежей до 6 месяцев и сниженная ипотечная ставка от ПАО Сбербанк. Точную выгоду рассчитает специалист отдела продаж.]]></description>
-      <enclosure url="https://apartamenty.poprostomy.ru/images/studios.jpg" type="image/jpeg" length="0"/>
+      <enclosure url="https://apartamenty.poprostomy.ru/images/photos/studio-2.jpg" type="image/jpeg" length="0"/>
       <content:encoded><![CDATA[
         <p>Скидка <strong>5%</strong> на помещения площадью более 24 м², рассрочка платежей до 6 месяцев и сниженная ипотечная ставка от ПАО Сбербанк.</p>
         <p>Точную выгоду рассчитает специалист отдела продаж. Расчёты проходят через эскроу-счета.</p>
-        <p><a href="https://apartamenty.poprostomy.ru/#invest">Рассчитать выгоду</a></p>
+        <p><a href="https://apartamenty.poprostomy.ru/invest.html">Рассчитать выгоду</a></p>
       ]]></content:encoded>
     </item>
 
     <item>
       <title>Коммерческие помещения от 940 тыс. ₽: первый этаж и подвал</title>
-      <link>https://apartamenty.poprostomy.ru/#formats</link>
+      <link>https://apartamenty.poprostomy.ru/commercial.html</link>
       <guid isPermaLink="false">santerra-commercial-2026-11</guid>
       <pubDate>Thu, 05 Nov 2026 10:00:00 +0300</pubDate>
       <category>Коммерция</category>
       <description><![CDATA[Отдельные входы, потолки 3,9 метра и удобный доступ для посетителей. Магазин, кафе, офис или услуги — подойдёт под сдачу в аренду.]]></description>
-      <enclosure url="https://apartamenty.poprostomy.ru/images/commercial.jpg" type="image/jpeg" length="0"/>
+      <enclosure url="https://apartamenty.poprostomy.ru/images/photos/commercial-1.jpg" type="image/jpeg" length="0"/>
       <content:encoded><![CDATA[
         <p>Коммерческий первый этаж и помещения подвального этажа с отдельными входами. Потолки 3,9 метра, доступ для посетителей и возможность сдачи в аренду.</p>
-        <p><a href="https://apartamenty.poprostomy.ru/#formats">Смотреть коммерческие помещения</a></p>
+        <p><a href="https://apartamenty.poprostomy.ru/commercial.html">Смотреть коммерческие помещения</a></p>
       ]]></content:encoded>
     </item>
 
     <item>
       <title>Студии 17,5–45,2 м² с готовой отделкой — можно заезжать</title>
-      <link>https://apartamenty.poprostomy.ru/#formats</link>
+      <link>https://apartamenty.poprostomy.ru/studios.html</link>
       <guid isPermaLink="false">santerra-studios-2026-10</guid>
       <pubDate>Wed, 28 Oct 2026 10:00:00 +0300</pubDate>
       <category>Студии</category>
       <description><![CDATA[Площади от 17,5 до 45,2 м², панорамное остекление и потолки 3 метра. Все помещения передаются с готовой отделкой и инженерными сетями.]]></description>
-      <enclosure url="https://apartamenty.poprostomy.ru/images/studios.jpg" type="image/jpeg" length="0"/>
+      <enclosure url="https://apartamenty.poprostomy.ru/images/photos/studio-2.jpg" type="image/jpeg" length="0"/>
       <content:encoded><![CDATA[
         <p>Студии для жизни и инвестиций на 2–7 этажах. Площади от 17,5 до 45,2 м², панорамное остекление, высота потолков 3 метра.</p>
         <p>Все помещения передаются с готовой отделкой: стены, полы, освещение и инженерные сети.</p>
-        <p><a href="https://apartamenty.poprostomy.ru/#formats">Выбрать студию</a></p>
+        <p><a href="https://apartamenty.poprostomy.ru/studios.html">Выбрать студию</a></p>
       ]]></content:encoded>
     </item>
 
     <item>
       <title>Здание введено в эксплуатацию: покупайте готовые помещения</title>
-      <link>https://apartamenty.poprostomy.ru/#about</link>
+      <link>https://apartamenty.poprostomy.ru/about.html</link>
       <guid isPermaLink="false">santerra-completed-2026-10</guid>
       <pubDate>Thu, 15 Oct 2026 10:00:00 +0300</pubDate>
       <category>Новости проекта</category>
       <description><![CDATA[Многофункциональное здание «Сантерра» готово. Покупатели получают готовые помещения без ожидания сроков строительства.]]></description>
-      <enclosure url="https://apartamenty.poprostomy.ru/images/facade.jpg" type="image/jpeg" length="0"/>
+      <enclosure url="https://apartamenty.poprostomy.ru/images/photos/facade-2.jpg" type="image/jpeg" length="0"/>
       <content:encoded><![CDATA[
         <p>Многофункциональное здание «Сантерра» (Sunterra) введено в эксплуатацию. Вы покупаете готовые помещения — можно сразу заезжать, начинать работать или сдавать в аренду.</p>
-        <p><a href="https://apartamenty.poprostomy.ru/#about">Подробнее о проекте</a></p>
+        <p><a href="https://apartamenty.poprostomy.ru/about.html">Подробнее о проекте</a></p>
       ]]></content:encoded>
     </item>
 
     <item>
       <title>13 минут до МЦД-4: станция «Железнодорожная» рядом</title>
-      <link>https://apartamenty.poprostomy.ru/#location</link>
+      <link>https://apartamenty.poprostomy.ru/location.html</link>
       <guid isPermaLink="false">santerra-location-2026-10</guid>
       <pubDate>Thu, 01 Oct 2026 10:00:00 +0300</pubDate>
       <category>Локация</category>
       <description><![CDATA[До станции МЦД-4 «Железнодорожная» — около 13 минут пешком. Рядом стадион «Орион», гимназии, магазины, сквер Победы и Пестовский парк.]]></description>
-      <enclosure url="https://apartamenty.poprostomy.ru/images/hero.jpg" type="image/jpeg" length="0"/>
+      <enclosure url="https://apartamenty.poprostomy.ru/images/photos/territory-2.jpg" type="image/jpeg" length="0"/>
       <content:encoded><![CDATA[
         <p>Развитая инфраструктура в пешей доступности: МЦД-4, стадион «Орион», гимназии № 1 и № 2, дошкольные учреждения и сетевые магазины.</p>
         <p>Для отдыха — благоустроенный сквер Победы, Пестовский парк и прогулочные зоны.</p>
-        <p><a href="https://apartamenty.poprostomy.ru/#location">Смотреть расположение</a></p>
+        <p><a href="https://apartamenty.poprostomy.ru/location.html">Смотреть расположение</a></p>
       ]]></content:encoded>
     </item>
 

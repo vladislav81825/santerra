@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /send.php
 Disallow: /server.js
+Disallow: /_tmp/
 
 Sitemap: https://apartamenty.poprostomy.ru/sitemap.xml
